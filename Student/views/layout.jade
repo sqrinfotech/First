@@ -1,0 +1,40 @@
+doctype 5
+html
+  head
+    title Application-2
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='css/bootstrap.min.css', rel='stylesheet')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+     
+  body
+ 
+    .navbar.navbar-inverse.navbar-static-top
+      .container
+        a.navbar-brand(href='#')  Want To Connect To DB
+        button.navbar-toggle(data-toggle='collapse', data-target='.navHeaderCollapse')
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        .collapse.navbar-collapse.navHeaderCollapse
+          ul.nav.navbar-nav.navbar-right
+            li.active
+              a(href='/') Home
+            li
+              a(href='/new') Insert Into DB
+            li
+              a(href='/index') View All Documents
+            li
+              a(href='Update') Update Documents
+    block content
+
+    .navbar.navbar-default.navbar-fixed-bottom
+      .container
+        p.navbar-text.pull-left Site Build By Puja
+        a.btn.navbar-button.btn-danger.pull-right(href='#') Subscribe on Youtube
+    
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+    script(src='/javascripts/bootstrap.js')
+    script(src='/javascripts/bootstrap.min.js')
+

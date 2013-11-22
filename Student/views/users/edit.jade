@@ -1,0 +1,43 @@
+extends ../layout
+
+block content
+  .container
+    center
+        h3 Enter Details of Student
+      form.well.form-horizontal(action='/new', method='Post')
+        .form-group
+          label.col-sm-3.control-label(for='sname') Student's Name :
+          .col-sm-7
+            input#sname.form-control(type='text',name='sname')
+        .form-group
+          label.col-sm-3.control-label(for='course') Student's Course :
+          .col-sm-7
+            select#course.form-control(name='course')
+             option [select any one]
+             option MCA
+             option MBA
+             option MCM
+             option BCA
+
+        .form-group
+          label.col-sm-3.control-label(for='fee') Student's Fee : 
+          .input-group.col-sm-7
+            span.input-group-addon $
+            input#fee.form-control(type='text',name='fee')
+            span.input-group-addon .00
+     
+
+        .form-group
+          label.col-sm-3.control-label(for='doa') Date Of Admission : 
+          .col-sm-7
+            input#doa.form-control(type='date',name='doa')
+        
+        .form-group
+          label.col-sm-3.control-label(for='phone') Contact NO. : 
+          .col-sm-7
+            input#phone.form-control(type='tel',name='phone')
+        .form-group
+          button.btn.btn-primary.col-sm-2(type='submit') Submit
+
+               
+    
