@@ -30,17 +30,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect('mongodb://localhost/users');
 
-var studentsSchema=new Schema({
-	studentsRoll:ObjectId,
-	name:String,
-	course:String,
-	fee:Number,
-	doa:Date,
-	contact:Number
-});
-
-var Students=mongoose.model('Students',studentsSchema);
-
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -49,87 +38,18 @@ if ('development' == app.get('env')) {
 app.get('/', routes.home);
 app.get('/users', user.list);
 
-app.get('/index',function(req,res){
-	Students.find({},function(err,docs){
-		if (err){
-			throw err;
-		} else{
-			res.render('users/index', {records:docs});
-		};
-	});
-});
+app.get('/index',user.index);
 
-app.get('/users/:id/show',function(req,res){
-	Students.findById(req.params.id, function(err,student){
-		if (err){
-			throw err;
-		} else{
-			res.render('users/show', {record: student});
-		};
-	});
-});
+app.get('/users/:id/show',user.show);
 
 app.get('/new', routes.insert);
-app.post('/new', function(req,res){
-	var stud = new Students({
-    	name:req.body.sname,
-    	course:req.body.course,
-    	fee:req.body.fee,
-    	doa:req.body.doa,
-    	contact:req.body.phone
-  	});
-	stud.save(function(err,docs){
-		if(err) res.json(err);
-		res.redirect('/index');
-	});
-});
+app.post('/new', user.insert);
 
-app.get('/users/:id/delete',function(req,res){
-	Students.remove({_id:req.params.id},function(err,docs){
-		if (err){
-			throw err;
-		} else{
-			res.redirect('/index');
-		};
-	});
-});
+app.get('/users/:id/delete',user.delete);
 
-app.get('/users/:id/edit',function(req,res){
-	Students.findById(req.params.id, function(err,student){
-		if (err){
-			throw err;
-		} else{
-			res.render('users/edit', {user: student});
-		};
-	});
-});
+app.get('/users/:id/edit',user.edit);
+app.put('/users/:id/edit',user.update);
 
-// app.post('/new', function(req,res){
-// 	var stud = new Students({
-//     	name:req.body.sname,
-//     	course:req.body.course,
-//     	fee:req.body.fee,
-//     	doa:req.body.doa,
-//     	contact:req.body.phone
-//   	});
-// 	stud.save(function(err,docs){
-// 		if(err) res.json(err);
-// 		res.redirect('/index');
-// 	});
-// });
-app.put('/users/:id/edit',function(req,res){
-	Students.findByIdAndUpdate(req.params.id,
-		{
-			name:req.body.sname,
-    		course:req.body.course,
-    		fee:req.body.fee,
-    		doa:req.body.doa,
-    		contact:req.body.phone
-    	},function(err,docs){
-			if(err) res.json(err);
-			res.redirect('/index');
-	});
-});
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
