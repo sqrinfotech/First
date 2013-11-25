@@ -11,3 +11,4 @@ exports.insert =function(req,res){
 	res.render('users/new');
 };
 
+

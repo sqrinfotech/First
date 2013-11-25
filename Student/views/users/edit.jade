@@ -3,17 +3,18 @@ extends ../layout
 block content
   .container
     center
-        h3 Enter Details of Student
-      form.well.form-horizontal(action='/new', method='Post')
+        h3 Edit Details of #{user.name}'s profile
+      form.well.form-horizontal(action='/users/#{user._id}/edit', method='post')
+        input(type="hidden", name="_method", value="PUT")
         .form-group
           label.col-sm-3.control-label(for='sname') Student's Name :
           .col-sm-7
-            input#sname.form-control(type='text',name='sname')
+            input#sname.form-control(type='text',name='sname',value='#{user.name}')
         .form-group
           label.col-sm-3.control-label(for='course') Student's Course :
           .col-sm-7
             select#course.form-control(name='course')
-             option [select any one]
+             option #{user.course}
              option MCA
              option MBA
              option MCM
@@ -23,21 +24,21 @@ block content
           label.col-sm-3.control-label(for='fee') Student's Fee : 
           .input-group.col-sm-7
             span.input-group-addon $
-            input#fee.form-control(type='text',name='fee')
+            input#fee.form-control(type='text',name='fee',value='#{user.fee}')
             span.input-group-addon .00
      
 
         .form-group
           label.col-sm-3.control-label(for='doa') Date Of Admission : 
           .col-sm-7
-            input#doa.form-control(type='date',name='doa')
+            input#doa.form-control(type='date',name='doa',value='#{user.doa}')
         
         .form-group
           label.col-sm-3.control-label(for='phone') Contact NO. : 
           .col-sm-7
-            input#phone.form-control(type='tel',name='phone')
+            input#phone.form-control(type='tel',name='phone',value='#{user.contact}')
         .form-group
-          button.btn.btn-primary.col-sm-2(type='submit') Submit
+          button.btn.btn-primary.col-sm-2(type='submit') Update
 
                
     

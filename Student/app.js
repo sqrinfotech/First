@@ -59,6 +59,16 @@ app.get('/index',function(req,res){
 	});
 });
 
+app.get('/users/:id/show',function(req,res){
+	Students.findById(req.params.id, function(err,student){
+		if (err){
+			throw err;
+		} else{
+			res.render('users/show', {record: student});
+		};
+	});
+});
+
 app.get('/new', routes.insert);
 app.post('/new', function(req,res){
 	var stud = new Students({
@@ -84,19 +94,42 @@ app.get('/users/:id/delete',function(req,res){
 	});
 });
 
-app.get('/users/:id/show',function(req,res){
-	Students.findOne({_id:req.params.id},function(err,student){
+app.get('/users/:id/edit',function(req,res){
+	Students.findById(req.params.id, function(err,student){
 		if (err){
 			throw err;
 		} else{
-			console.log('**********************************************');
-			console.log(student);
-			res.render('users/show', {record: student});
+			res.render('users/edit', {user: student});
 		};
 	});
 });
 
-
+// app.post('/new', function(req,res){
+// 	var stud = new Students({
+//     	name:req.body.sname,
+//     	course:req.body.course,
+//     	fee:req.body.fee,
+//     	doa:req.body.doa,
+//     	contact:req.body.phone
+//   	});
+// 	stud.save(function(err,docs){
+// 		if(err) res.json(err);
+// 		res.redirect('/index');
+// 	});
+// });
+app.put('/users/:id/edit',function(req,res){
+	Students.findByIdAndUpdate(req.params.id,
+		{
+			name:req.body.sname,
+    		course:req.body.course,
+    		fee:req.body.fee,
+    		doa:req.body.doa,
+    		contact:req.body.phone
+    	},function(err,docs){
+			if(err) res.json(err);
+			res.redirect('/index');
+	});
+});
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
