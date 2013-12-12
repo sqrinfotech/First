@@ -1,22 +1,25 @@
 extends ../layout
 
 block content
-  #{record.name}
   .container
     center
       h1 Information of Students
       table.table.table-striped
         tr
-          th Student Name
+          th Student Full Name
+          th Age.
+          th Contact No.
+          th Email
           th Course
           th Fee
           th Date of admission
-          th Contact No.
         tr
-          td #{record.name}
+          td #{record.name.full}
+          td #{record.age} 
+          td #{record.contact} 
+          td #{record.email} 
           td #{record.course}
           td #{record.fee} 
           td #{record.doa} 
-          td #{record.contact} 
       div
         a.btn.btn-success.btn-lg(href="/users/#{record._id}/edit") Edit

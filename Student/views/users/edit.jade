@@ -3,15 +3,36 @@ extends ../layout
 block content
   .container
     center
-        h3 Edit Details of #{user.name}'s profile
+        h3 Edit Details of #{user.name.full}'s profile
       form.well.form-horizontal(action='/users/#{user._id}/edit', method='post')
         input(type="hidden", name="_method", value="PUT")
         .form-group
-          label.col-sm-3.control-label(for='sname') Student's Name :
+          label.col-sm-3.control-label(for='sfname') Student's First Name :
           .col-sm-7
-            input#sname.form-control(type='text',name='sname',value='#{user.name}')
+            input#sfname.form-control(type='text',name='sfname',value='#{user.name.first}')
+
         .form-group
-          label.col-sm-3.control-label(for='course') Student's Course :
+          label.col-sm-3.control-label(for='slname') Student's Last Name :
+          .col-sm-7
+            input#slname.form-control(type='text',name='slname',value='#{user.name.last}')
+
+        .form-group
+          label.col-sm-3.control-label(for='age') Student's Age :
+          .col-sm-7
+            input#age.form-control(type='text',name='age',value='#{user.age}')
+
+        .form-group
+          label.col-sm-3.control-label(for='phone') Contact NO. : 
+          .col-sm-7
+            input#phone.form-control(type='tel',name='phone',value='#{user.contact}')
+
+        .form-group
+          label.col-sm-3.control-label(for='email') Email : 
+          .col-sm-7
+            input#email.form-control(type='text',name='email',value='#{user.email}')
+
+        .form-group
+          label.col-sm-3.control-label(for='course') Course :
           .col-sm-7
             select#course.form-control(name='course')
              option #{user.course}
@@ -21,7 +42,7 @@ block content
              option BCA
 
         .form-group
-          label.col-sm-3.control-label(for='fee') Student's Fee : 
+          label.col-sm-3.control-label(for='fee') Fee : 
           .input-group.col-sm-7
             span.input-group-addon $
             input#fee.form-control(type='text',name='fee',value='#{user.fee}')
@@ -32,11 +53,6 @@ block content
           label.col-sm-3.control-label(for='doa') Date Of Admission : 
           .col-sm-7
             input#doa.form-control(type='date',name='doa',value='#{user.doa}')
-        
-        .form-group
-          label.col-sm-3.control-label(for='phone') Contact NO. : 
-          .col-sm-7
-            input#phone.form-control(type='tel',name='phone',value='#{user.contact}')
         .form-group
           button.btn.btn-primary.col-sm-2(type='submit') Update
 

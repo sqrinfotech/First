@@ -4,19 +4,59 @@
 // //  */
 
 var mongoose=require('mongoose'),
+	validate = require('mongoose-validator').validate,
    Schema=mongoose.Schema,
    ObjectId=Schema.ObjectId;
 
-var studentsSchema=new Schema({
+var StudentSchema=new Schema({
 	studentsRoll:ObjectId,
-	name:String,
-	course:String,
-	fee:Number,
-	doa:Date,
-	contact:Number
+	name: {
+        first: {type: String, required: true }, 
+        last: {type: String, required: true }
+    	},
+	age:{ type: Number, required: true},
+	contact:{ type: Number, required: true },
+	email:{ type: String, unique: true, required: true },
+	course:{ type: String, required: true },
+	fee:{ type: Number, required: true },
+	doa:{ type: Date, required: true }
 });
 
-var Students=mongoose.model('Students',studentsSchema);
+
+StudentSchema.virtual('name.full')
+.get(function () {
+  return this.name.first + ' ' + this.name.last;
+});
+
+StudentSchema.path('name.first').validate(function (val) {
+  if (val.length >= 5){
+			return true;
+		}
+		return false;
+}, 'First name should be between 5 and 50 characters');
+
+StudentSchema.path('age').validate(function (val) {
+  if (val >= 16 && val <= 70 ){
+			return true;
+		}
+		return false;
+}, 'Age Should be more than 16');
+
+StudentSchema.path('doa').validate(function (val) {
+	var doa = val;
+    var today = new Date();
+	if (doa<today)
+ 	 {
+  		return true; 
+ 	}
+  	return false; 	
+}, 'date should be earlier than today date');
+
+StudentSchema.path('email').validate(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+	, 'Email Id should be in proper format');
+
+
+var Students=mongoose.model('Students',StudentSchema);
 
 exports.list = function(req, res){
 	res.send("respond with a resource");
@@ -44,14 +84,21 @@ exports.show = function(req, res){
 
 exports.insert = function(req, res){
 	var stud = new Students({
-    	name:req.body.sname,
+		name: { first: req.body.sfname , last:req.body.slname},
+    	age:req.body.age,
+    	contact:req.body.phone,
+    	email:req.body.email,
     	course:req.body.course,
     	fee:req.body.fee,
-    	doa:req.body.doa,
-    	contact:req.body.phone
+    	doa:req.body.doa
   	});
 	stud.save(function(err,docs){
-		if(err) res.json(err);
+		if(err){
+				Object.keys(err.errors).forEach(function(key) {
+				var message = err.errors[key].message;
+				console.log('Validation error for "%s": %s', key, message);
+			});
+		}
 		res.redirect('/index');
 	});
 };
@@ -79,11 +126,13 @@ exports.edit= function(req, res){
 exports.update= function(req, res){
 	Students.findByIdAndUpdate(req.params.id,
 		{
-			name:req.body.sname,
+			name: {first:req.body.sfname,last:req.body.slname},
+			age:req.body.age,
+			contact:req.body.phone,
+			email:req.body.email,
     		course:req.body.course,
     		fee:req.body.fee,
-    		doa:req.body.doa,
-    		contact:req.body.phone
+    		doa:req.body.doa
     	},function(err,docs){
 			if(err) res.json(err);
 			res.redirect('/index');
