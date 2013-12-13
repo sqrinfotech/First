@@ -29,7 +29,7 @@ StudentSchema.virtual('name.full')
 });
 
 StudentSchema.path('name.first').validate(function (val) {
-  if (val.length >= 5){
+  if (val.length >= 3){
 			return true;
 		}
 		return false;

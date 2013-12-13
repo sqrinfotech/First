@@ -9,7 +9,6 @@
     "express": "3.4.4",
     "jade": "*",
     "mongoose": "*",
-    "mongoose-validator":"*",
-    "connect-flash":"*"
+    "mongoose-validator":"*"
   }
 }

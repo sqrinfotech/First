@@ -8,11 +8,18 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var flash=require('connect-flash');
 var mongoose=require('mongoose'),
    Schema=mongoose.Schema,
    ObjectId=Schema.ObjectId;
 
 var app = express();
+
+app.configure(function() {
+  app.use(express.cookieParser('keyboard cat'));
+  app.use(express.session({ cookie: { maxAge: 60000 }}));
+  app.use(flash());
+});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -35,8 +42,10 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.home);
-app.get('/users', user.list);
+app.get('/', function(req, res){
+  req.flash('info', 'Hello,Here we are doing the CRUD Application with MongoDB');
+  res.render('home', { message: req.flash('info') });
+});
 
 app.get('/index',user.index);
 
